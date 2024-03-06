@@ -14,6 +14,14 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  bool isShowTitle = false;
+
+  void onPressed() {
+    setState(() {
+      isShowTitle = !isShowTitle;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,13 +32,17 @@ class _AppState extends State<App> {
           ),
         ),
       ),
-      home: const Scaffold(
-        backgroundColor: Color(0xFFF4eddb),
+      home: Scaffold(
+        backgroundColor: const Color(0xFFF4eddb),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MyLargeTitle(),
+              isShowTitle ? const MyLargeTitle() : const Text('nothing'),
+              IconButton(
+                onPressed: onPressed,
+                icon: const Icon(Icons.remove_red_eye_rounded),
+              )
             ],
           ),
         ),
@@ -39,13 +51,31 @@ class _AppState extends State<App> {
   }
 }
 
-class MyLargeTitle extends StatelessWidget {
+class MyLargeTitle extends StatefulWidget {
   const MyLargeTitle({
     super.key,
   });
 
   @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
+  @override
+  void initState() {
+    super.initState();
+    print('initState');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('build');
     return Text(
       'My Large Title',
       style: TextStyle(
