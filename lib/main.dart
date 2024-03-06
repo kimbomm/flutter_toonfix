@@ -1,87 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:toonfix/widgets/stateless_app.dart';
+import 'package:toonfix/screens/home_screen.dart';
+// import 'package:toonfix/widgets/stateless_app.dart';
+// import 'package:toonfix/screens/stateful_app.dart';
 
 void main() {
-  bool isStateless = false;
-  runApp(isStateless ? const StatelessApp() : const App());
+  runApp(const MyApp());
 }
 
-class App extends StatefulWidget {
-  const App({super.key});
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  bool isShowTitle = false;
-
-  void onPressed() {
-    setState(() {
-      isShowTitle = !isShowTitle;
-    });
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        colorScheme: const ColorScheme(
+          primary: Color(0xFF232b55),
+          onPrimary: Color(0xFFFFFFFF),
+          secondary: Color(0xFFE7626C),
+          onSecondary: Color(0xFFFFFFFF),
+          error: Color(0xFF000000),
+          onError: Color(0xFFFFFFFF),
+          onBackground: Color(0xFFE7626C),
+          surface: Color(0xFFFFFFFF),
+          onSurface: Color(0xFF000000),
+          brightness: Brightness.light,
+          background: Color(0xFFE7626C),
+        ),
         textTheme: const TextTheme(
-          titleLarge: TextStyle(
-            color: Colors.red,
+          displayLarge: TextStyle(
+            color: Color(0xFF232b55),
           ),
         ),
+        cardColor: const Color(0xFFF4EDDB),
       ),
-      home: Scaffold(
-        backgroundColor: const Color(0xFFF4eddb),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              isShowTitle ? const MyLargeTitle() : const Text('nothing'),
-              IconButton(
-                onPressed: onPressed,
-                icon: const Icon(Icons.remove_red_eye_rounded),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class MyLargeTitle extends StatefulWidget {
-  const MyLargeTitle({
-    super.key,
-  });
-
-  @override
-  State<MyLargeTitle> createState() => _MyLargeTitleState();
-}
-
-class _MyLargeTitleState extends State<MyLargeTitle> {
-  @override
-  void initState() {
-    super.initState();
-    print('initState');
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    print('dispose');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    print('build');
-    return Text(
-      'My Large Title',
-      style: TextStyle(
-        fontSize: 30,
-        color: Theme.of(context).textTheme.titleLarge?.color,
-      ),
+      home: const HomeScreen(),
     );
   }
 }
