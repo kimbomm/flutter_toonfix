@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toonfix/models/webtoon_model.dart';
 import 'package:toonfix/services/api_services.dart';
+import 'package:toonfix/widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -52,40 +51,11 @@ class HomeScreen extends StatelessWidget {
       itemCount: snapshot.data!.length,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
       itemBuilder: (context, index) {
-        return Column(
-          children: [
-            Container(
-              width: 250,
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    offset: const Offset(10, 10),
-                    blurRadius: 15,
-                  ),
-                ],
-              ),
-              child: Image.network(
-                snapshot.data![index].thumb,
-                headers: const {
-                  "User-Agent":
-                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              snapshot.data![index].title,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
+        var webtoon = snapshot.data![index];
+        return WebtoonWidget(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
