@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:toonfix/services/api_services.dart';
 import 'package:toonfix/tookfix_screens/home_screen.dart';
 // import 'package:toonfix/screens/home_screen.dart';
 // import 'package:toonfix/widgets/stateless_app.dart';
 // import 'package:toonfix/screens/stateful_app.dart';
 
 void main() {
-  ApiService().getTodaysToons();
   runApp(const MyApp());
 }
 
