@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toonfix/models/webtoon_detail_model.dart';
 import 'package:toonfix/models/webtoon_episode_model.dart';
 import 'package:toonfix/services/api_services.dart';
@@ -20,12 +21,35 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
+  late SharedPreferences pref;
+  List<String> favoriteList = [];
+  bool isFavorite = false;
+
+  initPrefs() async {
+    pref = await SharedPreferences.getInstance();
+    favoriteList = pref.getStringList('favoriteList') ?? [];
+
+    isFavorite = favoriteList.contains(widget.id);
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
     webtoon = ApiService.getToonbyId(widget.id);
     episodes = ApiService.getEpisodesbyId(widget.id);
+    initPrefs();
+  }
+
+  onFavoriteTap() {
+    if (isFavorite) {
+      favoriteList.remove(widget.id);
+    } else {
+      favoriteList.add(widget.id);
+    }
+    pref.setStringList('favoriteList', favoriteList);
+    isFavorite = !isFavorite;
+    setState(() {});
   }
 
   @override
@@ -36,6 +60,17 @@ class _DetailScreenState extends State<DetailScreen> {
         elevation: 2,
         backgroundColor: Colors.white,
         foregroundColor: Colors.green,
+        actions: [
+          IconButton(
+            onPressed: onFavoriteTap,
+            icon: Icon(
+              isFavorite
+                  ? Icons.favorite_outlined
+                  : Icons.favorite_outline_outlined,
+              color: Colors.green,
+            ),
+          ),
+        ],
         title: Text(
           widget.title,
           style: const TextStyle(
